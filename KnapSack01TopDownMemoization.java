@@ -8,21 +8,21 @@ public class KnapSack01TopDownMemoization {
         return knapsack(items, capacity, 0, cache);
     }
 
-    private static int knapsack(Item[] items, int capacity, int item, Map<Integer, Map<Integer, Integer>> cache) {
-        if (item == items.length) return 0;
-        if (!cache.containsKey(item)) cache.put(item, new HashMap<>());
-        Integer value = cache.get(item).get(capacity);
+    private static int knapsack(Item[] items, int capacity, int index, Map<Integer, Map<Integer, Integer>> cache) {
+        if (index == items.length) return 0;
+        if (!cache.containsKey(index)) cache.put(index, new HashMap<>());
+        Integer value = cache.get(index).get(capacity);
         if (value != null) return value;
-        int toReturn;
-        if (items[item].weight > capacity) {
-            toReturn = knapsack(items, capacity, item + 1, cache);//skip dont include item
+        int profit;
+        if (items[index].weight > capacity) {
+            profit = knapsack(items, capacity, index + 1, cache);//skip dont include item
         } else {
-            toReturn = Math.max(
-                    knapsack(items, capacity - items[item].weight, item + 1, cache) + items[item].value,//we include items[item] item consider its value
-                    knapsack(items, capacity, item + 1, cache));
+            profit = Math.max(
+                    knapsack(items, capacity - items[index].weight, index + 1, cache) + items[index].profit,//we include items[item] item consider its value
+                    knapsack(items, capacity, index + 1, cache));
         }
-        cache.get(item).put(capacity, toReturn);
-        return toReturn;
+        cache.get(index).put(capacity, profit);
+        return profit;
     }
 
     public static void main(String[] args) {
@@ -38,11 +38,11 @@ public class KnapSack01TopDownMemoization {
 
     static class Item {
         final int weight;
-        final int value;
+        final int profit;
 
-        public Item(int weight, int value) {
+        public Item(int weight, int profit) {
             this.weight = weight;
-            this.value = value;
+            this.profit = profit;
         }
     }
 }
