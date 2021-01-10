@@ -1,4 +1,4 @@
-# dynamic_programming
+# Dynamic Programming
 
 Q. How to figure out the dimension of the Memoization array?
 A. how many varaibles are modified inside the recursive calls? 
@@ -18,4 +18,9 @@ A. how many varaibles are modified inside the recursive calls?
 10. we can include the current choice since it does not violate the boundary but do we want to
 	a. figure out the maximum of inclusion and exclusion
 	b. include target-sum- current and index, out targets-um -0 and index+1
+
+for LCS, we have two strings and two pointers and one length so we need a three dimensional array that keeps indexes and length
+also we have three recursive calls
+
+we can use a hashmap instead of the three dimensional array. so the key will be the concatnation of index1 and index2
 
