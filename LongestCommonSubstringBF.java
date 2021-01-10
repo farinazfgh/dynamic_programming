@@ -1,7 +1,8 @@
 public class LongestCommonSubstringBF {
     static int findLCSLength(String str1, String str2) {
         int length = 0;
-        int index1 = 0, index2 = 0;
+        int index1 = 0;
+        int index2 = 0;
         return findLCSLengthRecursive(str1, str2, index1, index2, length);
 
     }
