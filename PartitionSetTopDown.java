@@ -1,5 +1,7 @@
+import java.util.HashMap;
+import java.util.Map;
 
-public class PartitionSetBF {
+public class PartitionSetTopDown {
     static int numberOfRecursiveCalls = 0;
 
     /*
@@ -10,10 +12,12 @@ public class PartitionSetBF {
         for (int value : num) sum += value;
         double mod = sum % 2;
         if (mod != 0) return false;// if 'sum' is a an odd number, we can't have two subsets with equal sum
-        return canPartitionR(num, index, (sum / 2));
+        Map<String, Boolean> cache = new HashMap<>();
+
+        return canPartitionR(num, index, (sum / 2), cache);
     }
 
-    private static boolean canPartitionR(int[] num, int index, int sum) {
+    private static boolean canPartitionR(int[] num, int index, int sum, Map<String, Boolean> cache) {
         numberOfRecursiveCalls++;
         //base case
         if (sum == 0) return true;
@@ -21,13 +25,17 @@ public class PartitionSetBF {
         /*
         recursive call after choosing the number at the currentIndex
         if the number at currentIndex exceeds the sum, we shouldn't process this*/
-        if (num[index] <= sum) {
-            //to include
-            if (canPartitionR(num, index + 1, sum - num[index])) return true;
+        String key = index + "#" + sum;
+        if (cache.get(key) == null) {
+            if (num[index] <= sum && canPartitionR(num, index + 1, sum - num[index], cache)) {                //to include
+                cache.put(key, true);
+                return true;
+            }
+            //to exclude
+            cache.put(key, canPartitionR(num, index + 1, sum, cache));
+            // recursive call after excluding the number at the currentIndex
         }
-        //to exclude
-        return canPartitionR(num, index + 1, sum);
-        // recursive call after excluding the number at the currentIndex
+        return cache.get(key);
     }
 
     public static void main(String[] args) {
