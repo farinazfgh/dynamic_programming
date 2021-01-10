@@ -53,9 +53,14 @@ public class LongestCommonSubstringBottomUp {
         int maxLength = 0;
         for (int i = 1; i <= n; i++)
             for (int j = 1; j <= m; j++) {
-                if (str1.charAt(i - 1) == str2.charAt(j - 1)) dp[i][j] = 1 + dp[i - 1][j - 1];
+                /*
+                If the character at s1[i] matches s2[j], the length of the common substring would be
+                one plus the length of the common substring till i-1 inclusive and j-1 inclusive
+                 */
+                if (str1.charAt(i - 1) == str2.charAt(j - 1))
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                //else we don’t have any common substring.
                 maxLength = Math.max(maxLength, dp[i][j]);
-                print(dp, str1.length() + 1, str2.length() + 1);
             }
         return maxLength;
     }
